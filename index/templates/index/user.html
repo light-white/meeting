@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>全国高等院校计算机基础教育研究会独立学院及民办高校专业委员会</title>
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body style='padding-top: 70px;'>
+
+  <header class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.jsp">Brand</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="{% url 'index-index' %}">首页 <span class="sr-only">(current)</span></a></li>
+          <li><a href="{% url 'news' %}">新闻公告</a></li>
+          <li><a href="{% url 'meet' %}">会议列表</a></li>
+          <li><a href="{% url 'history' %}">往届回顾</a></li>
+          <li><a href="{% url 'index-about' %}">关于我们</a></li>
+        </ul>
+        {% if not request.user.is_authenticated %}
+        <div class="navbar-right">
+          <button type="button" class="btn btn-default navbar-btn" onclick="window.location.href='{% url "index-login" %}'">登陆</button>
+          <button type="button" class="btn btn-default navbar-btn" onclick="window.location.href='{% url "index-register" %}'">注册</button>
+        </div>
+        {% else %}
+        <div class="navbar-right">
+          <button type="button" class="btn btn-link navbar-btn" onclick="window.location.href='{% url "index-user" %}'">{{ request.user.username }}</button>
+          <button type="button" class="btn btn-link navbar-btn" onclick="window.location.href='{% url "index-logout" %}'">注销</button>
+        </div>
+        {% endif %}
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container -->
+  </header>
+
+  <div class="container">
+    <div class="row">
+       <div class="col-md-12 col-sm-12">
+       <div class="page-header">
+        <h1>会员信息</h1>
+        </div>
+        <div class="row">
+          <div class="col-xs-offset-1">
+      		  <form class="form-horizontal">
+      		    <div class="form-group">
+      		      <label class="col-sm-2 control-label">用户名</label>
+      		      <div class="col-sm-4">
+      		        <p class="form-control-static">{{ request.user.username }}</p>
+      		      </div>
+      		    </div>
+      		    <div class="form-group">
+      		      <label class="col-sm-2 control-label">学校</label>
+      		      <div class="col-sm-4">
+      		        <p class="form-control-static">{{ request.user.university }}</p>
+      		      </div>
+      		    </div>
+              <div class="form-group">
+      		      <label class="col-sm-2 control-label">真实姓名</label>
+      		      <div class="col-sm-4">
+      		        <p class="form-control-static">{{ request.user.realname }}</p>
+      		      </div>
+      		    </div>
+      		  </form>
+            <form class="form-horizontal" action="{% url 'index-change-pwd' %}" method="post">
+              {%csrf_token%}
+              {% for field in form %}
+              <div class="form-group">
+                <label for="username" class="col-sm-2 control-label">{{ field.label }}</label>
+                <div class="col-sm-4">
+                  {{ field }}{{ field.errors }}
+                </div>
+              </div>
+              {% endfor %}
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-default">修改密码</button>
+                </div>
+              </div>
+            </form>
+      		 </div>
+        </div>
+        <div class="page-header">
+          <h1>发票信息</h1>
+        </div>
+        <div class="row">
+          <div class="col-xs-offset-1">
+            <form class="form-horizontal" action="{% url 'index-change-invoice' %}" method="post">
+              {%csrf_token%}
+              {% for field in inform %}
+              <div class="form-group">
+                <label for="username" class="col-sm-2 control-label">{{ field.label }}</label>
+                <div class="col-sm-4">
+                  {{ field }}{{ field.errors }}
+                </div>
+              </div>
+              {% endfor %}
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-default">修改发票信息</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>
