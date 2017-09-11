@@ -20,4 +20,4 @@ def news(request):
 
 def article(request, nid):
     news = Article.objects.filter(id = nid).first()
-    return render(request, 'news/article.html', {'user':user, 'news':news})
+    return render(request, 'news/article.html', {'news':news})
