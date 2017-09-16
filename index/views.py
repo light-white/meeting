@@ -38,6 +38,9 @@ def user_register(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
+            user = User.objects.filter(username=form.cleaned_data['username'])
+            if user:
+                return render(request, 'index/register.html', {'form':form})
             user = User()
             user.username = form.cleaned_data['username']
             user.set_password(form.cleaned_data['password'])
