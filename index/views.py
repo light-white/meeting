@@ -40,7 +40,8 @@ def user_register(request):
         if form.is_valid():
             user = User.objects.filter(username=form.cleaned_data['username'])
             if user:
-                return render(request, 'index/register.html', {'form':form})
+                script = r'alert("用户名已存在")'
+                return render(request, 'index/register.html', {'form':form, 'script':script})
             user = User()
             user.username = form.cleaned_data['username']
             user.set_password(form.cleaned_data['password'])
