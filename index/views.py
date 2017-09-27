@@ -27,7 +27,8 @@ def user_login(request):
                 else:
                     return HttpResponseRedirect('/login')
             else:
-                return HttpResponseRedirect('/login')
+                script = r'alert("用户名或密码错误")'
+                return render(request, 'index/login.html', {'form':form, 'script':script})
         else:
             return render(request, 'index/login.html', {'form':form})
     if request.method == 'GET':
