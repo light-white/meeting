@@ -1,29 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>会议列表</title>
-  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-</head>
-<body style="padding-top: 70px;">
+{% extends 'base.html' %}
+{% load staticfiles %}
 
-  <header class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="{% url 'index-index' %}">独立学院计算机系主任论坛</a>
-      </div>
-
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+{% block nav %}
         <ul class="nav navbar-nav">
           <li><a href="{% url 'index-index' %}">首页 <span class="sr-only">(current)</span></a></li>
           <li><a href="{% url 'news' %}">新闻公告</a></li>
@@ -31,22 +9,9 @@
           <li><a href="{% url 'history' %}">往届回顾</a></li>
           <li><a href="{% url 'index-about' %}">关于我们</a></li>
         </ul>
-        {% if not request.user.is_authenticated %}
-        <div class="navbar-right">
-          <button type="button" class="btn btn-default navbar-btn" onclick="window.location.href='{% url "index-login" %}'">登陆</button>
-          <button type="button" class="btn btn-default navbar-btn" onclick="window.location.href='{% url "index-register" %}'">注册</button>
-        </div>
-        {% else %}
-        <div class="navbar-right">
-          <button type="button" class="btn btn-link navbar-btn" onclick="window.location.href='{% url "index-user" %}'">{{ request.user.username }}</button>
-          <button type="button" class="btn btn-link navbar-btn" onclick="window.location.href='{% url "index-logout" %}'">注销</button>
-        </div>
-        {% endif %}
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container -->
-  </header>
+{% endblock %}
 
-  <div class="container">
+{% block context %}
     <div class="row">
        <div class="col-md-12 col-sm-12">
     		<div class="row">
@@ -72,9 +37,4 @@
     		</div>
       </div>
     </div>
-  </div>
-
-  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-</body>
-</html>
+{% endblock %}
