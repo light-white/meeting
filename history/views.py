@@ -23,7 +23,7 @@ def history(request):
     elif contacts.number < 5:
         pagelist = list(range(1,11))
     elif contacts.paginator.num_pages-contacts.number < 5:
-        pagelist = list(range(contacts.paginator.num_pages-10,contacts.paginator.num_pages+1))
+        pagelist = list(range(contacts.paginator.num_pages-9,contacts.paginator.num_pages+1))
     else:
         pagelist = list(range(contacts.number-4,contacts.number+6))
     return render(request, 'history/history.html', {'contacts': contacts, 'pagelist':pagelist})
