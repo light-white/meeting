@@ -19,12 +19,14 @@ def meet(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         contacts = paginator.page(paginator.num_pages)
-    if contacts.number < 3:
-        pagelist = list(range(1,6)) if contacts.paginator.num_pages > 5 else list(range(1,contacts.paginator.num_pages+1))
-    elif contacts.paginator.num_pages-contacts.number < 3:
-        pagelist = list(range(contacts.paginator.num_pages-4,contacts.paginator.num_pages+1)) if contacts.paginator.num_pages > 5 else list(range(1,contacts.paginator.num_pages+1))
+    if contacts.paginator.num_pages < 10:
+        pagelist = list(range(1,contacts.paginator.num_pages+1))
+    elif contacts.number < 5:
+        pagelist = list(range(1,11))
+    elif contacts.paginator.num_pages-contacts.number < 5:
+        pagelist = list(range(contacts.paginator.num_pages-10,contacts.paginator.num_pages+1))
     else:
-        pagelist = list(range(contacts.num-2,contacts+3))
+        pagelist = list(range(contacts.number-4,contacts.number+6))
     return render(request, 'meet/meet.html', {'contacts': contacts, 'pagelist':pagelist})
 
 def meetitem(request, mid):

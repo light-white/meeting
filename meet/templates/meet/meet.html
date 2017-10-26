@@ -42,7 +42,11 @@
               </li>
               {% endif %}
               {% for i in pagelist %}
-              <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% if contacts.number == i %}
+                  <li class="active"><span href="?page={{ i }}">{{ i }}</span></li>
+                {% else %}
+                  <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
               {% endfor %}
               {% if contacts.has_next %}
               <li>
