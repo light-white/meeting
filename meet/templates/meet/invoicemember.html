@@ -37,6 +37,11 @@
               </tr>
               {% endfor %}
             </table>
+            <div class="row" style="margin-top:30px;margin-bottom:30px">
+              <p class="text-center">
+                <a class="btn btn-primary btn-lg" href="{% url 'invoiceexcel' meet.id %}" style="color:white;">导出Excel</a>
+              </p>
+            </div>
           </div>
         </div>
       </div>

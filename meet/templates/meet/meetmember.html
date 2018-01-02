@@ -41,7 +41,8 @@
             </table>
             <div class="row" style="margin-top:30px;margin-bottom:30px">
               <p class="text-center">
-                <a class="btn btn-primary btn-lg" href="{% url 'invoicemember' meet.id %}" style="color:white;">发票信息统计</a>
+                <a class="btn btn-primary btn-lg" href="{% url 'memberexcel' meet.id %}" style="color:white;">导出Excel</a>
+                <a class="btn btn-primary btn-lg col-md-offset-1" href="{% url 'invoicemember' meet.id %}" style="color:white;">发票信息统计</a>
               </p>
             </div>
           </div>

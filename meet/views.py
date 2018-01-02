@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from meet.models import *
 from meet.forms import *
 from index.models import User
+from openpyxl import Workbook
+from io import BytesIO
 # Create your views here.
 
 def meet(request):
@@ -79,6 +81,51 @@ def memberitem(request, mid):
     else:
         return HttpResponseRedirect(reverse('index-login'))
 
+def memberexcel(request, mid):
+    if request.user.is_staff:
+        user = User.objects.get(id = request.user.id)
+        meet = Meet.objects.filter(id = mid).first()
+        meetmember = Meetmember.objects.filter(mid = mid)
+        member = []
+        for m in meetmember:
+            user = User.objects.get(id = m.uid)
+            user.pnum = m.pnum
+            user.livable = m.livable
+            user.indate = m.indate
+            user.outdate = m.outdate
+            user.invoice = m.invoice
+            member.append(user)
+        member.sort(key = lambda obj:obj.university)
+        wb = Workbook()
+        ws = wb.active
+        ws.append(['学校名称', '报名人', '参会人数', '住宿', '入住时间', '离开时间', '发票'])
+        for user in member:
+            univer = user.university
+            realname = user.realname
+            livable = user.livable
+            if user.indate:
+                indate = user.indate
+            else:
+                indate = ''
+            if user.outdate:
+                outdate = user.outdate
+            else:
+                outdate = ''
+            if user.invoice:
+                invoice = 'Y'
+            else:
+                invoice = ''
+            ws.append([univer, realname, livable, indate, outdate, invoice])
+        output = BytesIO()
+        wb.save(output)
+        response = HttpResponse(content_type='application/vnd.ms-excel')
+        filename = meet.title + 'member'
+        response['Content-Disposition'] = 'attachment;filename={}.xls'.format(filename)
+        response.write(output.getvalue())
+        return response
+    else:
+        return HttpResponseRedirect(reverse('index-login'))
+
 def meetmember(request, mid):
     if request.user.is_staff:
         user = User.objects.get(id = request.user.id)
@@ -106,9 +153,39 @@ def invoicemember(request, mid):
         member = []
         for m in meetmember:
             user = User.objects.get(id = m.uid)
-            print(user.title)
             member.append(user)
         member.sort(key = lambda obj:obj.university)
         return render(request, 'meet/invoicemember.html', {'meet':meet, 'member':member})
+    else:
+        return HttpResponseRedirect(reverse('index-login'))
+
+def invoiceexcel(request, mid):
+    if request.user.is_staff:
+        user = User.objects.get(id = request.user.id)
+        meet = Meet.objects.filter(id = mid).first()
+        meetmember = Meetmember.objects.filter(mid = mid, invoice=True)
+        member = []
+        for m in meetmember:
+            user = User.objects.get(id = m.uid)
+            member.append(user)
+        member.sort(key = lambda obj:obj.university)
+        wb = Workbook()
+        ws = wb.active
+        ws.append(['报名人', '发票抬头', '纳税人识别号', '快递地址', '邮政编码', '手机号'])
+        for user in member:
+            realname = user.realname
+            title = user.title
+            invoicenum = user.invoicenum
+            address = user.address
+            postal = user.postal
+            phone = user.phone
+            ws.append([realname, title, invoicenum, address, postal, phone])
+        output = BytesIO()
+        wb.save(output)
+        response = HttpResponse(content_type='application/vnd.ms-excel')
+        filename = meet.title + 'invoice'
+        response['Content-Disposition'] = 'attachment;filename={}.xls'.format(filename)
+        response.write(output.getvalue())
+        return response
     else:
         return HttpResponseRedirect(reverse('index-login'))
