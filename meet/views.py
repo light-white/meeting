@@ -71,7 +71,7 @@ def joinmeet(request, mid):
             return render(request, 'meet/meetjoin.html', {'meet':meet, 'form':form})
 
 def memberitem(request, mid):
-    if request.user.is_staff:
+    if request.user.is_active:
         user = User.objects.get(id = request.user.id)
         meet = Meet.objects.filter(id = mid).first()
         meetmember = Meetmember.objects.filter(mid = mid).first()
