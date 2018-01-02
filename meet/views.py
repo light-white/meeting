@@ -66,6 +66,15 @@ def joinmeet(request, mid):
             meet = Meet.objects.filter(id = mid).first()
             return render(request, 'meet/meetjoin.html', {'meet':meet, 'form':form})
 
+def memberitem(request, mid):
+    if request.user.is_staff:
+        user = User.objects.get(id = request.user.id)
+        meet = Meet.objects.filter(id = mid).first()
+        meetmember = Meetmember.objects.filter(mid = mid).first()
+        return render(request, 'meet/memberitem.html', {'meet':meet, 'member':meetmember})
+    else:
+        return HttpResponseRedirect(reverse('index-login'))
+
 def meetmember(request, mid):
     if request.user.is_staff:
         user = User.objects.get(id = request.user.id)

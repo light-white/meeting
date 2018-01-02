@@ -1,0 +1,62 @@
+{% extends 'base.html' %} {% load staticfiles %} {% block nav %}
+<ul class="nav navbar-nav">
+  <li><a href="{% url 'index-index' %}">首页 <span class="sr-only">(current)</span></a></li>
+  <li><a href="{% url 'news' %}">新闻公告</a></li>
+  <li class="active"><a href="{% url 'meet' %}">会议列表</a></li>
+  <li><a href="{% url 'history' %}">往届回顾</a></li>
+  <li><a href="{% url 'index-about' %}">关于我们</a></li>
+</ul>
+{% endblock %} {% block context %}
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2 col-sm-8 col-md-offset-2">
+        <h1 class="text-center">{{ meet.title }}</h1>
+      </div>
+      <div class="col-md-8 col-md-offset-2 col-sm-8 col-md-offset-2" style="margin-top:30px">
+        <form class="form-horizontal">
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">参会人数</label>
+            <div class="col-sm-4">
+              <p class="form-control-static">{{ member.pnum }}</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">住宿</label>
+            <div class="col-sm-4">
+              <p class="form-control-static">{{ member.livable }}</p>
+            </div>
+          </div>
+          {% if member.indate %}
+          <div class="form-group">
+            <label class="col-sm-2 control-label">入住时间</label>
+            <div class="col-sm-4">
+              <p class="form-control-static">{{ member.indate }}</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">离开时间</label>
+            <div class="col-sm-4">
+              <p class="form-control-static">{{ member.outdate }}</p>
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">是否开发票</label>
+            <div class="col-sm-4">
+              <p class="form-control-static">
+                {% if member.invoice %} 是 {% else %} 否 {% endif %}
+              </p>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
