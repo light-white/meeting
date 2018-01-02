@@ -45,6 +45,7 @@ def joinmeet(request, mid):
         else:
             return HttpResponseRedirect(reverse('index-login'))
     if request.method == 'POST':
+        meet = Meet.objects.filter(id = mid).first()
         form = JoinForm(request.POST)
         if form.is_valid():
             member = Meetmember()
@@ -59,7 +60,6 @@ def joinmeet(request, mid):
                     member.indate = form.cleaned_data['indate']
                     member.outdate = form.cleaned_data['outdate']
                 else:
-                    meet = Meet.objects.filter(id = mid).first()
                     return render(request, 'meet/meetjoin.html', {'meet':meet, 'form':form})
             member.invoice = form.cleaned_data['invoice']
             member.save()
