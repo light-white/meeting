@@ -25,3 +25,5 @@ class Meetmember(models.Model):
 
     def __str__(self):
         return 'mid = %s, uid = %s' % (self.mid, self.uid)
+    class Meta:
+        verbose_name_plural = verbose_name = u'参会人员'
