@@ -50,7 +50,7 @@ SUIT_CONFIG = {  # suit页面配置
     'LIST_PER_PAGE': 20,
     'MENU': ({'label': u'首页管理', 'app': 'index', 'models': ('index.User', 'index.Indeximage',)},
              {'label': u'新闻管理', 'app': 'news', 'models': ('news.Article',)},
-             {'label': u'会议管理', 'app': 'meet', 'models': ('meet.Meet',)},
+             {'label': u'会议管理', 'app': 'meet', 'models': ('meet.Meet', 'meet.Meetmember',)},
              {'label': u'历届管理', 'app': 'history', 'models': ('history.History',)},   #每一个字典表示左侧菜单的一栏
              # {'label': u'SQL管理', 'app': 'web_sso', 'models': ('web_sso.Sql', 'web_sso.PreSql', 'web_sso.Direction')},  # 可以是多个字典
              ),
