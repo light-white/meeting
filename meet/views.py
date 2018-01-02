@@ -50,6 +50,8 @@ def joinmeet(request, mid):
             member = Meetmember()
             member.mid = mid
             member.uid = request.user.id
+            if int(form.cleaned_data['pnum']) < 1:
+                return render(request, 'meet/meetjoin.html', {'meet':meet, 'form':form})
             member.pnum = form.cleaned_data['pnum']
             member.livable = form.cleaned_data['livable']
             if member.livable != '不住宿':
