@@ -52,7 +52,8 @@ def joinmeet(request, mid):
             member.mid = mid
             member.uid = request.user.id
             if int(form.cleaned_data['pnum']) < 1:
-                return render(request, 'meet/meetjoin.html', {'meet':meet, 'form':form})
+                script = r'alert("人数不能少于1")'
+                return render(request, 'meet/meetjoin.html', {'meet':meet, 'form':form, 'script':script})
             member.pnum = form.cleaned_data['pnum']
             member.livable = form.cleaned_data['livable']
             if member.livable != '不住宿':
@@ -60,7 +61,8 @@ def joinmeet(request, mid):
                     member.indate = form.cleaned_data['indate']
                     member.outdate = form.cleaned_data['outdate']
                 else:
-                    return render(request, 'meet/meetjoin.html', {'meet':meet, 'form':form})
+                    script = r'alert("住宿需填写住宿时间")'
+                    return render(request, 'meet/meetjoin.html', {'meet':meet, 'form':form, 'script':script})
             member.invoice = form.cleaned_data['invoice']
             member.save()
             return HttpResponseRedirect('/meet/%s' % mid)
