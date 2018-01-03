@@ -5,6 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from meet.models import *
 from meet.forms import *
 from index.models import User
+from urllib import parse
 from openpyxl import Workbook
 from io import BytesIO
 # Create your views here.
@@ -102,6 +103,7 @@ def memberexcel(request, mid):
         for user in member:
             univer = user.university
             realname = user.realname
+            pnum = user.pnum
             livable = user.livable
             if user.indate:
                 indate = user.indate
@@ -115,12 +117,20 @@ def memberexcel(request, mid):
                 invoice = 'Y'
             else:
                 invoice = ''
-            ws.append([univer, realname, livable, indate, outdate, invoice])
+            ws.append([univer, realname, pnum, livable, indate, outdate, invoice])
+        ws.column_dimensions['A'].width = 20
+        ws.column_dimensions['B'].width = 15
+        ws.column_dimensions['C'].width = 15
+        ws.column_dimensions['D'].width = 15
+        ws.column_dimensions['E'].width = 15
+        ws.column_dimensions['F'].width = 15
+        ws.column_dimensions['G'].width = 15
         output = BytesIO()
         wb.save(output)
-        response = HttpResponse(content_type='application/vnd.ms-excel')
-        filename = meet.title + 'member'
-        response['Content-Disposition'] = 'attachment;filename={}.xls'.format(filename)
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        filename = meet.title + '_member'
+        filename = parse.quote(filename)
+        response['Content-Disposition'] = 'attachment;filename={}.xlsx'.format(filename)
         response.write(output.getvalue())
         return response
     else:
@@ -180,11 +190,18 @@ def invoiceexcel(request, mid):
             postal = user.postal
             phone = user.phone
             ws.append([realname, title, invoicenum, address, postal, phone])
+        ws.column_dimensions['A'].width = 15
+        ws.column_dimensions['B'].width = 15
+        ws.column_dimensions['C'].width = 20
+        ws.column_dimensions['D'].width = 15
+        ws.column_dimensions['E'].width = 15
+        ws.column_dimensions['F'].width = 15
         output = BytesIO()
         wb.save(output)
-        response = HttpResponse(content_type='application/vnd.ms-excel')
-        filename = meet.title + 'invoice'
-        response['Content-Disposition'] = 'attachment;filename={}.xls'.format(filename)
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        filename = meet.title + '_invoice'
+        filename = parse.quote(filename)
+        response['Content-Disposition'] = 'attachment;filename={}.xlsx'.format(filename)
         response.write(output.getvalue())
         return response
     else:
