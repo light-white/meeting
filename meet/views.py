@@ -127,7 +127,7 @@ def memberexcel(request, mid):
         ws.column_dimensions['G'].width = 15
         output = BytesIO()
         wb.save(output)
-        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response = HttpResponse(content_type='application/vnd.ms-excel;base64')
         filename = meet.title + '_member'
         filename = parse.quote(filename)
         response['Content-Disposition'] = 'attachment;filename={}.xlsx'.format(filename)
@@ -198,7 +198,7 @@ def invoiceexcel(request, mid):
         ws.column_dimensions['F'].width = 15
         output = BytesIO()
         wb.save(output)
-        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response = HttpResponse(content_type='application/vnd.ms-excel;base64')
         filename = meet.title + '_invoice'
         filename = parse.quote(filename)
         response['Content-Disposition'] = 'attachment;filename={}.xlsx'.format(filename)
