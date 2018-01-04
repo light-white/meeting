@@ -2,3 +2,5 @@ PyMySQL==0.7.11
 django_ckeditor==5.3.0
 Django==1.11.5
 django-suit
+openpyxl
+uwsgi
