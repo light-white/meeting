@@ -8,5 +8,5 @@ then
 else
     echo "No uwsgi running!"
 fi
-uwsgi /home/django/meeting/meeting_uwsgi.ini
+uwsgi ./meeting_uwsgi.ini
 echo "Start uwsgi service [OK]"

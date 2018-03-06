@@ -4,6 +4,6 @@ if [ ${psid} -gt 4 ]
 then
     echo "uwsgi is running!"
 else
-    uwsgi /home/django/meeting/meeting_uwsgi.ini
+    uwsgi ./meeting_uwsgi.ini
     echo "Start uwsgi service [OK]"
 fi
