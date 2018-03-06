@@ -17,4 +17,4 @@ clone 项目到本地
 执行```python3 manage.py makemigrations```初始化数据库  
 执行```python3 manage.py createsuperuser```创建超级管理员
 
-接下来就可以访问[后台系统](http://localhost/admin)了  
+接下来就可以访问后台系统 [http://localhost/admin](http://localhost/admin) 了  
